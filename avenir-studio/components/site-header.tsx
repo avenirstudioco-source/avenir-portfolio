@@ -1,8 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Sparkle } from '@/components/sparkle'
 
 const links = [
   { label: 'Estudio', href: '#estudio' },
@@ -33,10 +33,17 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 md:h-20">
         <a
           href="#top"
-          className="group inline-flex items-center gap-2.5 leading-none"
+          className="group inline-flex items-center gap-3 leading-none"
           aria-label="Avenir Studio, ir al inicio"
         >
-          <Sparkle className="h-3.5 w-3.5 text-rosa transition-transform duration-500 group-hover:rotate-90" />
+          <Image
+            src="/avenir-monogram.png"
+            alt="Logo de Avenir Studio"
+            width={805}
+            height={742}
+            className="h-auto w-7 shrink-0 object-contain md:w-9"
+            priority
+          />
           <span className="flex flex-col">
             <span className="font-serif text-lg font-medium tracking-[0.4em]">AVENIR</span>
             <span className="text-[0.5rem] font-light tracking-[0.5em] text-rosa">STUDIO</span>

@@ -9,6 +9,7 @@ type Project = {
   description: string
   tags: string[]
   image: string
+  imageAlt?: string
 }
 
 const projects: Project[] = [
@@ -64,7 +65,8 @@ const projects: Project[] = [
     description:
       'Hub editorial para una agencia de marketing con foco en moda y belleza. Split hero que deja convivir dos mundos visuales — editorial de moda y beauty tech — bajo una misma identidad.',
     tags: ['UI Web', 'Dirección de arte'],
-    image: '/projects/rl-marketing.png',
+    image: '/ryl-marketing-new.png',
+    imageAlt: 'Sitio web de R&L Marketing presentado en una computadora',
   },
 ]
 
@@ -101,7 +103,7 @@ export function Portfolio() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-crema/5">
                 <Image
                   src={project.image || '/placeholder.svg'}
-                  alt={`Vista del proyecto ${project.title}`}
+                  alt={project.imageAlt || `Vista del proyecto ${project.title}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
@@ -129,14 +131,38 @@ export function Portfolio() {
                   {project.description}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-crema/20 px-3 py-1 text-[0.6rem] font-light uppercase tracking-[0.2em] text-crema/70"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {project.tags.map((tag) =>
+                    (project.title === 'Embroider Factory' ||
+                      project.title === 'R&L Marketing' ||
+                      project.title === 'Electro Boutique' ||
+                      project.title === 'Gold Real Estate') &&
+                    tag === 'UI Web' ? (
+                      <a
+                        key={tag}
+                        href={
+                          project.title === 'R&L Marketing'
+                            ? 'https://rel.marketing/rm-wishlist'
+                            : project.title === 'Electro Boutique'
+                              ? 'https://julietacwik.github.io/Electro-Boutique-/index.html'
+                              : project.title === 'Gold Real Estate'
+                                ? 'https://bgoldestate.com/'
+                                : 'https://embroiderfactory.com/'
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer rounded-full border border-crema/20 px-3 py-1 text-[0.6rem] font-light uppercase tracking-[0.2em] text-crema/70 transition-colors hover:border-rosa/60 hover:text-rosa"
+                      >
+                        {tag}
+                      </a>
+                    ) : (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-crema/20 px-3 py-1 text-[0.6rem] font-light uppercase tracking-[0.2em] text-crema/70"
+                      >
+                        {tag}
+                      </span>
+                    ),
+                  )}
                 </div>
               </div>
             </Reveal>
