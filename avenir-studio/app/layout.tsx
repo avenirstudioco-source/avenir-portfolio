@@ -19,20 +19,37 @@ const jost = Jost({
 })
 
 export const metadata: Metadata = {
-  title: 'Avenir Studio — Diseño web & branding de lujo',
+  metadataBase: new URL('https://avenir-studio.com'),
+  title: 'Avenir Studio | Diseño y desarrollo web',
   description:
-    'Avenir Studio es un estudio de diseño enfocado en identidad de marca y experiencias web. Diseñamos marcas e interfaces que se sienten inevitables. Buenos Aires, Argentina.',
+    'Diseñamos y desarrollamos páginas web modernas, rápidas y estratégicas para marcas que buscan crecer y destacarse digitalmente.',
   generator: 'v0.app',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: 'Avenir Studio — Diseño web & branding de lujo',
+    title: 'Avenir Studio | Diseño y desarrollo web',
     description:
-      'Diseñamos marcas e interfaces que se sienten inevitables — claras hoy, vigentes mañana.',
+      'Diseñamos y desarrollamos páginas web modernas, rápidas y estratégicas para marcas que buscan crecer y destacarse digitalmente.',
+    url: 'https://avenir-studio.com',
     type: 'website',
+    images: [
+      {
+        url: '/icon.svg',
+        width: 512,
+        height: 512,
+        alt: 'Avenir Studio',
+      },
+    ],
   },
   icons: {
-    icon: '/avenir-logo-new.png',
-    shortcut: '/avenir-logo-new.png',
-    apple: '/avenir-logo-new.png',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
 }
 

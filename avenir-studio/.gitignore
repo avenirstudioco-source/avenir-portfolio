@@ -1,0 +1,20 @@
+node_modules/
+.next/
+
+# Variables de entorno
+.env
+.env.local
+
+# Configuración local de VS Code
+.vscode/
+
+# Archivos generados por Prisma
+/lib/generated/prisma/
+
+# Archivos temporales
+*.log
+.DS_Store
+skills-lock.json
+*.tsbuildinfo
+test-*.mjs
+test-*.ts
