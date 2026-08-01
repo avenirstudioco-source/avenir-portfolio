@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Jost } from 'next/font/google'
+import { WhatsAppButton } from '@/components/whatsapp-button'
+import { LanguageProvider } from '@/i18n/language-context'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({
@@ -20,17 +22,17 @@ const jost = Jost({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://avenir-studio.com'),
-  title: 'Avenir Studio | Diseño y desarrollo web',
+  title: 'Avenir Studio — Diseño web e identidad digital',
   description:
-    'Diseñamos y desarrollamos páginas web modernas, rápidas y estratégicas para marcas que buscan crecer y destacarse digitalmente.',
+    'Diseñamos y desarrollamos experiencias digitales estratégicas para marcas que buscan crecer y destacarse.',
   generator: 'v0.app',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Avenir Studio | Diseño y desarrollo web',
+    title: 'Avenir Studio — Diseño web e identidad digital',
     description:
-      'Diseñamos y desarrollamos páginas web modernas, rápidas y estratégicas para marcas que buscan crecer y destacarse digitalmente.',
+      'Diseñamos y desarrollamos experiencias digitales estratégicas para marcas que buscan crecer y destacarse.',
     url: 'https://avenir-studio.com',
     type: 'website',
     images: [
@@ -65,7 +67,10 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${cormorant.variable} ${jost.variable} scroll-smooth bg-background`}>
       <body className="font-sans antialiased">
-        {children}
+        <LanguageProvider>
+          {children}
+          <WhatsAppButton />
+        </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

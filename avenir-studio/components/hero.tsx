@@ -1,11 +1,14 @@
-import { Sparkle } from '@/components/sparkle'
+'use client'
 
-const tags = ['Web Design', 'Development', 'AI Solutions']
+import { Sparkle } from '@/components/sparkle'
+import { useLanguage } from '@/i18n/language-context'
 
 export function Hero() {
+  const { t } = useLanguage()
   return (
     <section
       id="top"
+      data-navbar-theme="dark"
       className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-noir text-crema"
     >
       {/* Pink aurora glow */}
@@ -40,7 +43,7 @@ export function Hero() {
         <div className="avenir-enter flex items-center gap-3 text-crema/60">
           <Sparkle className="h-3 w-3 text-rosa" />
           <span className="text-[0.65rem] font-light uppercase tracking-[0.4em]">
-            Buenos Aires — Argentina
+            {t.hero.location}
           </span>
         </div>
 
@@ -49,14 +52,14 @@ export function Hero() {
             className="avenir-enter inline-block"
             style={{ animationDelay: '0.1s' }}
           >
-            Diseñamos <span className="italic text-rosa">el futuro</span>
+            {t.hero.titleBefore}<span className="italic text-rosa">{t.hero.titleAccent}</span>
           </span>
           <br />
           <span
             className="avenir-enter inline-block"
             style={{ animationDelay: '0.22s' }}
           >
-            de tu marca.
+            {t.hero.titleAfter}
           </span>
         </h1>
 
@@ -64,8 +67,7 @@ export function Hero() {
           className="avenir-enter mt-8 max-w-xl text-pretty text-base font-light leading-relaxed text-crema/70 md:text-lg"
           style={{ animationDelay: '0.34s' }}
         >
-          Estudio de diseño de identidad de marca y experiencias web. Creamos
-          interfaces que se sienten inevitables — claras hoy, vigentes mañana.
+          {t.hero.description}
         </p>
 
         <div
@@ -76,13 +78,13 @@ export function Hero() {
             href="#portfolio"
             className="inline-flex items-center rounded-full bg-crema px-8 py-3.5 text-xs font-medium uppercase tracking-[0.28em] text-noir transition-transform hover:-translate-y-0.5"
           >
-            Ver portfolio
+            {t.hero.portfolioCta}
           </a>
           <a
             href="#contacto"
             className="inline-flex items-center rounded-full border border-crema/25 px-8 py-3.5 text-xs font-light uppercase tracking-[0.28em] text-crema transition-colors hover:bg-crema/10"
           >
-            Empecemos
+            {t.hero.startCta}
           </a>
         </div>
       </div>
@@ -90,7 +92,7 @@ export function Hero() {
       {/* Bottom tag strip */}
       <div className="relative border-t border-crema/10">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-2 px-6 py-5 md:justify-start">
-          {tags.map((tag, i) => (
+          {t.hero.tags.map((tag, i) => (
             <div key={tag} className="flex items-center gap-6">
               {i > 0 && <Sparkle className="h-3 w-3 text-rosa" />}
               <span className="text-[0.65rem] font-light uppercase tracking-[0.35em] text-crema/70">

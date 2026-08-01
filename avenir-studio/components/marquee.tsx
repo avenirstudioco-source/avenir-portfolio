@@ -1,19 +1,16 @@
-import { Sparkle } from '@/components/sparkle'
+'use client'
 
-const phrases = [
-  'Diseñamos el futuro',
-  'Menos, pero mejor',
-  'Buen diseño, mejores resultados',
-  'Tu marca merece destacarse',
-  'Estrategia · Diseño · Experiencia',
-]
+import { Sparkle } from '@/components/sparkle'
+import { useLanguage } from '@/i18n/language-context'
 
 export function Marquee() {
+  const { t } = useLanguage()
   // Duplicated once so the -50% translate loops seamlessly.
-  const sequence = [...phrases, ...phrases]
+  const sequence = [...t.marquee, ...t.marquee]
 
   return (
     <div
+      data-navbar-theme="dark"
       className="relative flex overflow-hidden border-y border-crema/10 bg-noir py-6 text-crema select-none"
       aria-hidden="true"
     >

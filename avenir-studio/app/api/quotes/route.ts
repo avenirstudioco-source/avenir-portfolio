@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { insertQuoteRequest } from '@/lib/db'
+import { isLanguage, translations } from '@/i18n/translations'
 
 export const runtime = 'nodejs'
 
@@ -12,20 +13,30 @@ export async function POST(request: Request) {
     phone?: string
     company?: string
     service?: string
-    budget?: string
+    originalBudgetUsd?: string
+    convertedBudget?: string
+    currency?: string
+    exchangeRate?: number
+    language?: string
     message?: string
   }
 
   const fullName = body.fullName?.trim()
   const email = body.email?.trim()
   const message = body.message?.trim()
+  const originalBudgetUsd = body.originalBudgetUsd?.trim()
+  const convertedBudget = body.convertedBudget?.trim()
+  const currency = body.currency?.trim()
+  const requestedLanguage = body.language ?? null
+  const language = isLanguage(requestedLanguage) ? requestedLanguage : 'es'
+  const copy = translations[language].contact
 
   if (!fullName || !email || !message) {
-    return NextResponse.json({ error: 'Nombre, email y mensaje son obligatorios.' }, { status: 400 })
+    return NextResponse.json({ error: copy.requiredError }, { status: 400 })
   }
 
   if (!emailPattern.test(email)) {
-    return NextResponse.json({ error: 'Ingresá un email válido.' }, { status: 400 })
+    return NextResponse.json({ error: copy.emailError }, { status: 400 })
   }
 
   const quote = await insertQuoteRequest({
@@ -34,7 +45,14 @@ export async function POST(request: Request) {
     phone: body.phone?.trim(),
     company: body.company?.trim(),
     service: body.service?.trim(),
-    budget: body.budget?.trim(),
+    budget: originalBudgetUsd
+      ? [
+          `${copy.base}: ${originalBudgetUsd}`,
+          `${copy.converted}: ${convertedBudget}`,
+          `${copy.labels.currency}: ${currency}`,
+          `${copy.rate}: ${body.exchangeRate}`,
+        ].join(' · ')
+      : undefined,
     message,
   })
 

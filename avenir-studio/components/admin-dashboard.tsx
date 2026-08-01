@@ -3,18 +3,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { QuoteRequest } from '@/lib/generated/prisma/client'
+import { useLanguage } from '@/i18n/language-context'
 
-const STATUS_LABELS: Record<string, string> = {
-  NUEVA: 'Nueva',
-  CONTACTADA: 'Contactada',
-  EN_PROCESO: 'En proceso',
-  CERRADA: 'Cerrada',
-}
+const STATUS_OPTIONS = ['NUEVA', 'CONTACTADA', 'EN_PROCESO', 'CERRADA'] as const
 
-const STATUS_OPTIONS = Object.keys(STATUS_LABELS)
-
-function formatDate(value: Date) {
-  return new Date(value).toLocaleString('es-AR', {
+function formatDate(value: Date, locale: string) {
+  return new Date(value).toLocaleString(locale, {
     dateStyle: 'medium',
     timeStyle: 'short',
   })
@@ -27,6 +21,8 @@ export function AdminDashboard({
   adminEmail: string
   initialQuotes: QuoteRequest[]
 }) {
+  const { language, t } = useLanguage()
+  const locale = { es: 'es-AR', en: 'en-US', pt: 'pt-BR' }[language]
   const router = useRouter()
   const [quotes, setQuotes] = useState(initialQuotes)
   const [updatingId, setUpdatingId] = useState<number | null>(null)
@@ -40,11 +36,11 @@ export function AdminDashboard({
       const response = await fetch(`/api/admin/quotes/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, language }),
       })
 
       if (!response.ok) {
-        throw new Error('No se pudo actualizar el estado.')
+        throw new Error(t.admin.updateError)
       }
     } catch {
       setQuotes(previous)
@@ -68,9 +64,9 @@ export function AdminDashboard({
               Avenir Studio
             </p>
             <h1 className="mt-2 font-serif text-3xl font-light tracking-tight">
-              Cotizaciones
+              {t.admin.quotes}
             </h1>
-            <p className="mt-1 text-xs font-light text-crema/50">Conectado como {adminEmail}</p>
+            <p className="mt-1 text-xs font-light text-crema/50">{t.admin.connectedAs} {adminEmail}</p>
           </div>
 
           <button
@@ -78,34 +74,27 @@ export function AdminDashboard({
             onClick={handleLogout}
             className="inline-flex items-center justify-center rounded-full border border-crema/20 px-6 py-2.5 text-xs font-light uppercase tracking-[0.28em] text-crema transition-colors hover:bg-crema hover:text-noir"
           >
-            Cerrar sesión
+            {t.admin.logout}
           </button>
         </div>
 
         {quotes.length === 0 ? (
           <p className="mt-16 text-center text-sm font-light text-crema/50">
-            Todavía no hay solicitudes de cotización.
+            {t.admin.empty}
           </p>
         ) : (
           <div className="mt-10 overflow-x-auto">
             <table className="w-full min-w-[900px] border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-crema/10 text-[0.62rem] font-light uppercase tracking-[0.2em] text-crema/45">
-                  <th className="py-3 pr-4">Fecha</th>
-                  <th className="py-3 pr-4">Nombre</th>
-                  <th className="py-3 pr-4">Contacto</th>
-                  <th className="py-3 pr-4">Empresa</th>
-                  <th className="py-3 pr-4">Servicio</th>
-                  <th className="py-3 pr-4">Presupuesto</th>
-                  <th className="py-3 pr-4">Mensaje</th>
-                  <th className="py-3 pr-4">Estado</th>
+                  {t.admin.columns.map((column) => <th key={column} className="py-3 pr-4">{column}</th>)}
                 </tr>
               </thead>
               <tbody>
                 {quotes.map((quote) => (
                   <tr key={quote.id} className="border-b border-crema/5 align-top">
                     <td className="py-4 pr-4 text-xs font-light text-crema/60 whitespace-nowrap">
-                      {formatDate(quote.createdAt)}
+                      {formatDate(quote.createdAt, locale)}
                     </td>
                     <td className="py-4 pr-4 font-light">{quote.fullName}</td>
                     <td className="py-4 pr-4 text-xs font-light text-crema/70">
@@ -127,7 +116,7 @@ export function AdminDashboard({
                       >
                         {STATUS_OPTIONS.map((option) => (
                           <option key={option} value={option}>
-                            {STATUS_LABELS[option]}
+                            {t.admin.statuses[option]}
                           </option>
                         ))}
                       </select>

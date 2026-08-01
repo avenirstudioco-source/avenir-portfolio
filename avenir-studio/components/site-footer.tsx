@@ -1,17 +1,19 @@
+'use client'
+
 import { Wordmark } from '@/components/wordmark'
 import { Sparkle } from '@/components/sparkle'
-
-const meta = ['Diseño', 'Tecnología', 'Futuro']
+import { useLanguage } from '@/i18n/language-context'
 
 export function SiteFooter() {
+  const { t } = useLanguage()
   return (
-    <footer className="bg-noir text-crema">
+    <footer data-navbar-theme="dark" className="bg-noir text-crema">
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="flex flex-col items-center gap-8 border-t border-crema/10 pt-10 md:flex-row md:justify-between">
           <Wordmark className="text-crema" />
 
           <div className="flex items-center gap-5">
-            {meta.map((item, i) => (
+            {t.footer.meta.map((item, i) => (
               <div key={item} className="flex items-center gap-5">
                 {i > 0 && <Sparkle className="h-2.5 w-2.5 text-rosa" />}
                 <span className="text-[0.6rem] font-light uppercase tracking-[0.35em] text-crema/60">
@@ -32,7 +34,7 @@ export function SiteFooter() {
         </div>
 
         <p className="mt-8 text-center text-[0.6rem] font-light uppercase tracking-[0.3em] text-crema/40 md:text-left">
-          © {new Date().getFullYear()} Avenir Studio — Buenos Aires, Argentina
+          © {new Date().getFullYear()} Avenir Studio — {t.footer.copyright}
         </p>
       </div>
     </footer>

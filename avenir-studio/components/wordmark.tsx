@@ -1,5 +1,8 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { Sparkle } from '@/components/sparkle'
+import { useLanguage } from '@/i18n/language-context'
 
 export function Wordmark({
   className,
@@ -8,11 +11,12 @@ export function Wordmark({
   className?: string
   showStudio?: boolean
 }) {
+  const { t } = useLanguage()
   return (
     <a
       href="#top"
       className={cn('group inline-flex items-center gap-2.5 leading-none', className)}
-      aria-label="Avenir Studio, ir al inicio"
+      aria-label={t.footer.homeLabel}
     >
       <Sparkle className="h-3.5 w-3.5 text-rosa transition-transform duration-500 group-hover:rotate-90" />
       <span className="flex flex-col">
